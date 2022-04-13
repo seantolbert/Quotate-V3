@@ -1,0 +1,37 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="hero is-primary">
+  <div class="hero-body">
+    <p class="title">Sign Up</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="columns is-mobile">
+    <div class="column is-half-desktop is-offset-one-quarter-desktop">
+      <div class="container is-fluid">
+        <div class="box mx-auto">
+          <form action="{% url 'signup' %}" method="POST">
+            {% csrf_token %}
+            <div class="content signupsheet">
+              {% if error_message %}
+              <p class="subtitle has-text-danger">{{ error_message }}</p>
+              {% endif %} {{ form.as_p }}
+              <input
+                type="submit"
+                class="button is-large is-success"
+                value="Sign Up"
+              />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  document.getElementById("id_username").className = "input";
+  document.getElementById("id_password1").className = "input";
+  document.getElementById("id_password2").className = "input";
+</script>
+{% endblock %}

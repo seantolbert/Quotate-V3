@@ -1,0 +1,46 @@
+{% extends 'base.html' %} {% block content %} {% if object %}
+<div class="hero is-primary">
+  <div class="hero-body">
+    <p class="title">Edit a quote you have added</p>
+  </div>
+</div>
+{% else %}
+<div class="hero is-primary">
+  <div class="hero-body">
+    <p class="title">Create a quote</p>
+  </div>
+</div>
+{% endif %}
+
+<section class="section is-medium pt-3 pb-3">
+  <form method="POST">
+    {% csrf_token %}
+    <div class="content is-large">{{ form }}</div>
+    <div class="level">
+      <div class="level-left">
+        <div class="level-item">
+          <input
+            type="submit"
+            value="Create"
+            class="button is-success is-large"
+          />
+        </div>
+        <div class="level-item">
+          {% if object %}
+          <a href="{% url 'quote_details' object.id %}">Cancel</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </form>
+</section>
+<script>
+  document.getElementById("id_content").className = "textarea is-large";
+  document.getElementById("id_content").placeholder = "What did they say??";
+  document.getElementById("id_content").rows = "6";
+  document.getElementById("id_note").className = "textarea";
+  document.getElementById("id_note").placeholder =
+    "if applicable, provide context here";
+  document.getElementById("id_note").rows = "4";
+</script>
+{% endblock %}

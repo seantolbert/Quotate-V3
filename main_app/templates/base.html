@@ -1,0 +1,160 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>"Quotate"</title>
+    <script
+      src="https://kit.fontawesome.com/15181efa86.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/bulma.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/style.css' %}"
+    />
+  </head>
+  <body>
+    <nav class="navbar is-primary topNav">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="{% url 'home' %}">
+          <span class="icon is-centered"
+            ><i class="fas fa-quote-left is-size-5"></i
+          ></span>
+          <span
+            class="
+              is-size-2-desktop is-size-2 is-size-3-mobile is-family-monospace
+              has-text-centered
+            "
+          >
+            QUOTATE
+          </span>
+          <span class="icon is-centered">
+            <i class="fas fa-quote-right is-size-5"></i>
+          </span>
+        </a>
+        <a
+          class="navbar-burger burger"
+          data-target="topNav"
+          role="button"
+          aria-label="menu"
+          id="aria-expanded"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </a>
+      </div>
+      {% if user.is_authenticated %}
+      <div id="topNav" class="navbar-menu">
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <p class="tag is-large is-dark">
+              <span class="has-text-weight-bold">{{user.username}}</span>
+            </p>
+          </div>
+          <a class="navbar-item" href="{% url 'home' %}">
+            <span class="icon-text">
+              <span class="icon">
+                <i class="fas fa-home"></i>
+              </span>
+              <span>Home</span>
+            </span>
+          </a>
+        </div>
+        <hr class="navbar-divider" />
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link is-arrowless"
+            ><span class="icon-text">
+              <span class="icon has-text-black">
+                <i class="fas fa-plus"></i> </span
+            ></span>
+          </a>
+          <div class="navbar-dropdown">
+            <a href="{% url 'quotes_create' %}" class="navbar-item"
+              >Create Quote</a
+            >
+            <a href="{% url 'source_create'%}" class="navbar-item"
+              >Add Source</a
+            >
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link is-arrowless"
+            ><span class="icon-text">
+              <span class="icon has-text-black is-size-4">
+                <i class="fas fa-genderless"></i> </span
+            ></span>
+          </a>
+          <div class="navbar-dropdown">
+            <a href="{% url 'quotes_index' %}" class="navbar-item"
+              >All Quotes</a
+            >
+            <a href="{% url 'sources_index' %}" class="navbar-item"
+              >All Sources</a
+            >
+          </div>
+        </div>
+
+        <div class="navbar-item px-0">
+          <a
+            href="{% url 'quotes_personal' %}"
+            class="navbar-item has-text-dark has-text-weight-bold"
+            >My Quotes</a
+          >
+        </div>
+
+        <div class="navbar-item">
+          <a href="{% url 'logout' %}" class="button is-info">Logout</a>
+        </div>
+        {% else %}
+        <div class="navbar-item">
+          <div class="field is-grouped">
+            <p class="control">
+              <a href="{% url 'signup' %}" class="button">
+                <span class="icon">
+                  <i class="fa fa-user-plus"></i>
+                </span>
+                <span> Register </span>
+              </a>
+            </p>
+            <p class="control">
+              <a href="{% url 'login' %}" class="button is-info">
+                <span class="icon">
+                  <i class="fa fa-user"></i>
+                </span>
+                <span>Login</span>
+              </a>
+            </p>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </nav>
+
+    {% block content %} {% endblock %}
+
+    <footer class="footer">
+      <div class="content has-text-centered">
+        <p>All Rights Reserved, &copy; 2021 Quotate Version 3.0 &nbsp;</p>
+      </div>
+    </footer>
+  </body>
+  <script>
+    const navButton = document.querySelector(
+      "nav .navbar-brand a.navbar-burger.burger[role='button']"
+    );
+    navButton.addEventListener("click", function (e) {
+      const navMenu = document.getElementById(e.target.dataset.target);
+      navMenu.classList.toggle("is-active");
+    });
+  </script>
+</html>

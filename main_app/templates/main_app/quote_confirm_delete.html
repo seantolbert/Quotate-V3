@@ -1,0 +1,21 @@
+{% extends 'base.html' %} {% block content %}
+<div class="block">
+  <div class="hero is-primary">
+    <div class="hero-body">
+      <p class="title">Are you sure you want to delete this quote?</p>
+    </div>
+  </div>
+</div>
+
+<section class="section is-medium">
+  <form method="POST">
+    {% csrf_token %}
+    <input
+      type="submit"
+      class="button is-danger is-large"
+      value="Yes - Delete this Quote"
+    />
+  </form>
+</section>
+
+{% endblock %}

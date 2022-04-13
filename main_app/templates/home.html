@@ -1,0 +1,44 @@
+{% extends 'base.html' %} {% block content %}
+<div class="hero is-halfheight is-primary">
+  <div class="hero-body">
+    <div class="">
+      <p class="title is-1">Welcome to Quotate</p>
+      <p class="subtitle is-3">
+        Get started by adding a source
+        <a href="{% url 'source_create' %}" class="has-text-warning">here</a>
+      </p>
+    </div>
+  </div>
+</div>
+<section class="section is-medium">
+  <div class="block">
+    <a href="{% url 'quote_details' quote.id %}">
+      <div class="columns">
+        <div class="column is-one-fifths has-text-centered">
+          <span class="icon">
+            <i class="fas fa-quote-left title"></i>
+          </span>
+        </div>
+        <div
+          class="column is-three-fifths has-text-centered is-family-monospace"
+        >
+          <span class="title is-5">{{quote}}</span>
+        </div>
+        <div class="column is-one-fifths has-text-centered">
+          <span class="icon">
+            <i class="fas fa-quote-right title"></i>
+          </span>
+        </div>
+      </div>
+    </a>
+  </div>
+  <div class="has-text-right-desktop has-text-right-mobile">
+    added by
+    <span class="has-text-link has-text-weight-bold">{{quote.user}}</span>
+  </div>
+  <div class="has-text-right-desktop has-text-right-mobile">
+    (click to find the source)
+  </div>
+</section>
+
+{% endblock %}

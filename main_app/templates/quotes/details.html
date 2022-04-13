@@ -1,0 +1,208 @@
+{% extends 'base.html' %} {% block content %}
+<div class="block">
+  <div class="hero is-primary">
+    <div class="hero-body">
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <p class="title">Details</p>
+          </div>
+        </div>
+        <div class="level-right">
+          <div class="level-item">
+            {% if quote.user.id == user.id %}
+
+            <div class="field is-grouped">
+              <div class="control">
+                <a
+                  class="button is-warning"
+                  href="{% url 'quote_update' quote.id %}"
+                >
+                  Edit
+                </a>
+              </div>
+              <div class="control">
+                <a
+                  class="button is-danger is-light"
+                  href="{% url 'quote_delete' quote.id %}"
+                  >Delete Quote</a
+                >
+              </div>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="columns is-mobile">
+  <div class="column is-one-fifth has-text-centered">
+    <span class="icon">
+      <i class="fas fa-quote-left is-size-1-desktop is-size-3-mobile"></i>
+    </span>
+  </div>
+  <div class="column is-three-fifths has-text-centered">
+    <span class="is-family-monospace has-text-weight-bold is-size-4-desktop is-size-6-mobile"
+      >{{quote}}</span
+    >
+  </div>
+  <div class="column is-one-fifth has-text-centered">
+    <span class="icon">
+      <i class="fas fa-quote-right is-size-1-desktop is-size-3-mobile"></i>
+    </span>
+  </div>
+</div>
+<div class="block">
+  <div class="container is-fluid">
+    {% if quote.sources.count %}
+    <div class="columns">
+      {% for source in quote.sources.all %}
+      <div class="column">
+        <div class="container is-fluid">
+          <div class="level">
+            <div class="level-left"></div>
+            <div class="level-right">
+              <div class="level-item">
+                <span class="subtitle">
+                  - {{source.quoter}}
+                  <i class="has-text-weight-bold">{{source.origin}}</i>
+                </span>
+              </div>
+              <div class="level-item">
+                <form
+                  action="{% url 'unassoc_source' quote.id source.id %}"
+                  method="POST"
+                >
+                  {% csrf_token %} {% if quote.user.id == user.id %}
+                  <button class="button is-outlined is-small is-danger">
+                    Remove Source
+                  </button>
+                  {% endif %}
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %} {% else %}
+<div class="block">
+  <p class="title is-4 has-text-danger has-text-weight-bold has-text-centered">
+    Please assign a source below before proceeding, or you will lose your
+    progress.
+  </p>
+</div>
+{% endif %} {% if quote.sources.count < 1 %}
+<p class="title">Available sources</p>
+<p class="subtitle is-4">
+  Forget to create your source first? click
+  <a class="has-text-info" href="{% url 'source_create' %}">here</a>
+</p>
+
+<div class="block">
+  <form method="get">
+    <div class="level">
+      <div class="level-left">
+        <div class="level-item">{{sourcefilter.form.as_p}}</div>
+        <div class="level-item">
+          <input type="submit" value="search" class="button is-info" />
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="columns is-multiline">
+  {% for source in sourcefilter.qs %}
+  <div class="column is-one-third">
+    <div class="container is-fluid">
+      <div class="notification is-link is-light">
+        <div class="columns">
+          <div class="column">
+            <a
+              href="{% url 'source_details' source.id %}"
+              style="text-decoration: none"
+            >
+              <div class="title">{{source.quoter}}</div>
+              <div class="subtitle">{{source.origin}}</div>
+            </a>
+          </div>
+        </div>
+        <form
+          action="{% url 'assoc_source' quote.id source.id %}"
+          method="POST"
+        >
+          {% csrf_token %}
+          <button type="submit" class="button is-rounded is-success is-small">
+            Add
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+<div class="block">
+  <div class="container is-fluid">
+    <div class="columns is-mobile is-multiline">
+      <div class="column is-8-desktop is-offset-2-desktop">
+        <form action="{% url 'add_quote_review' quote.id %}" method="POST">
+          {% csrf_token %}
+          <div class="content is-large">
+            <table>
+              {{ add_quote_review_form.as_p }}
+            </table>
+            <script>
+              document.getElementById("id_review").className = "textarea";
+              document.getElementById("id_review").rows = "5";
+              document.getElementById("id_rating").className = "select";
+            </script>
+          </div>
+
+          <input type="submit" value="Add Review" class="button is-success" />
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="columns is-mobile">
+    <div class="column is-8-desktop is-offset-2-desktop">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Review</th>
+            <th>Rating</th>
+            <th>User</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for review in quote.reviewquote_set.all %}
+          <tr>
+            <td>{{ review.date }}</td>
+            <td>{{ review.review }}</td>
+            <td>{{ review.rating }}</td>
+            <td>
+              {{ review.user.username }} {% if review.user.id == user.id %}
+              <a
+                class="button is-danger is-outlined is-small"
+                href="{% url 'delete_quote_review' quote.id review.id %}"
+                >DELETE</a
+              >
+            </td>
+            {% endif %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<script>
+  document.getElementById("id_quoter").className = "mr-5";
+</script>
+{% endblock %}

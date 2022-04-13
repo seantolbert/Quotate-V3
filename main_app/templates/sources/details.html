@@ -1,0 +1,137 @@
+{% extends 'base.html' %} {% block content %}
+<div class="block">
+  <div class="hero is-primary">
+    <div class="hero-body">
+      <p class="title">Details</p>
+    </div>
+  </div>
+</div>
+<section class="section">
+  <div class="columns">
+    <div class="column is-three-fifths-desktop is-offset-one-fifth-desktop">
+      <div class="container is-fluid">
+        <div class="box">
+          <div class="columns is-mobile is-multiline">
+            <div
+              class="
+                column
+                is-one-fifth-desktop is-half-mobile is-offset-one-quarter-mobile
+              "
+            >
+              <div
+                class="box has-text-centered"
+                style="background-color: #63b3e6"
+              >
+                <span class="has-text-weight-bold has-text-white">Quoter</span>
+              </div>
+            </div>
+            <div class="column">
+              <div class="box has-text-centered-mobile">
+                <span class="is-family-monospace">{{source.quoter}}</span>
+              </div>
+            </div>
+          </div>
+          {% if source.origin %}
+          <div class="columns is-mobile is-multiline">
+            <div
+              class="
+                column
+                is-one-fifth-desktop is-half-mobile is-offset-one-quarter-mobile
+              "
+            >
+              <div
+                class="box has-text-centered"
+                style="background-color: #63b3e6"
+              >
+                <span class="has-text-weight-bold has-text-white">Origin</span>
+              </div>
+            </div>
+            <div class="column">
+              <div class="box has-text-centered-mobile">
+                <span class="is-family-monospace">{{source.origin}}</span>
+              </div>
+            </div>
+          </div>
+          {% endif %} {% if source.note %}
+          <div class="columns is-mobile is-multiline">
+            <div
+              class="
+                column
+                is-one-fifth-desktop is-half-mobile is-offset-one-quarter-mobile
+              "
+            >
+              <div
+                class="box has-text-centered"
+                style="background-color: #63b3e6"
+              >
+                <span class="has-text-weight-bold has-text-white">Note</span>
+              </div>
+            </div>
+            <div class="column">
+              <div class="box has-text-centered-mobile">
+                <span class="is-family-monospace">{{source.note}}</span>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+          <div class="columns is-mobile is-multiline">
+            <div
+              class="
+                column
+                is-one-fifth-desktop is-half-mobile is-offset-one-quarter-mobile
+              "
+            >
+              <div
+                class="box has-text-centered"
+                style="background-color: #63b3e6"
+              >
+                <span class="has-text-weight-bold has-text-white"
+                  >Added by</span
+                >
+              </div>
+            </div>
+            <div class="column">
+              <div class="box has-text-centered-mobile">
+                <span class="is-family-monospace"
+                  >{{source.user.username}}</span
+                >
+              </div>
+            </div>
+          </div>
+          {% if source.user.id == user.id %}
+          <div class="level">
+            <div class="level-left">
+              <div class="level-item">
+                <a href="{% url 'quotes_personal' %}">Assign to quote(s)</a>
+              </div>
+            </div>
+            <div class="level-right">
+              <div class="level-item">
+                <div class="field is-grouped is-right">
+                  <div class="control">
+                    <a
+                      class="button is-warning"
+                      href="{% url 'source_update' source.id %}"
+                    >
+                      Edit
+                    </a>
+                  </div>
+                  <div class="control">
+                    <a
+                      class="button is-danger is-light"
+                      href="{% url 'source_delete' source.id %}"
+                      >Delete</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endif %} 
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

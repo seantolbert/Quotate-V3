@@ -1,0 +1,52 @@
+{% extends 'base.html' %} {% block content %}
+<div class="block">
+  <div class="hero is-primary">
+    <div class="hero-body">
+      <p class="title">All Sources</p>
+    </div>
+  </div>
+</div>
+<div class="block">
+  <div class="container is-fluid">
+    <form method="get">
+      <div class="level">
+        <div class="level-right">
+          <div class="level-item">{{sourcefilter.form.as_p}}</div>
+
+          <div class="level-item">
+            <input type="submit" class="button is-info " value="Search" />
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="columns is-multiline is-centered">
+  {% for source in sourcefilter.qs %}
+  <div class="column is-one-quarter">
+    <div class="container is-fluid">
+      <div class="notification is-warning">
+        <div class="columns is-centered">
+          <div class="column">
+            <a
+              style="text-decoration: none"
+              href="{% url 'source_details' source.id %}"
+            >
+              <div class="title is-5">{{source.quoter}}</div>
+              <div class="subtitle is-6">{{source.origin}}</div>
+              <p class="subtitle is-7">{{source.note}}</p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% endfor %}
+</div>
+
+<script>
+  document.getElementById("id_quoter").className = "mr-5";
+</script>
+{% endblock %}

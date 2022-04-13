@@ -10,6 +10,7 @@ from main_app.forms import AddReviewQuoteForm
 from main_app.filter import QuoteFilter, SourceFilter
 
 
+
 def home(request):
     quote = Quote.objects.last()
     return render(request, "home.html", {"quote": quote})
@@ -33,23 +34,29 @@ def source_details(request, source_id):
     return render(request, "sources/details.html", {"source": source, "quotes": quotes})
 
 
-class SourceCreate(CreateView, LoginRequiredMixin):
+class SourceCreate(LoginRequiredMixin, CreateView):
     model = Source
     fields = ["quoter", "origin", "note"]
+    login_url = '/accounts/login/'
+    redirect_field_name = 'redirect_to'
 
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
 
-class SourceUpdate(UpdateView, LoginRequiredMixin):
+class SourceUpdate(LoginRequiredMixin, UpdateView):
     model = Source
     fields = ["quoter", "origin", "note"]
+    login_url = '/accounts/login/'
+    redirect_field_name = 'redirect_to'
 
 
-class SourceDelete(DeleteView, LoginRequiredMixin):
+class SourceDelete(LoginRequiredMixin, DeleteView):
     model = Source
     success_url = "/sources/"
+    login_url = '/accounts/login/'
+    redirect_field_name = 'redirect_to'
 
 
 def quotes_index(request):
@@ -81,23 +88,29 @@ def quote_details(request, quote_id):
     )
 
 
-class QuoteCreate(CreateView, LoginRequiredMixin):
+class QuoteCreate(LoginRequiredMixin, CreateView):
     model = Quote
     fields = ["content", "note"]
+    login_url = '/accounts/login/'
+    redirect_field_name = 'redirect_to'
 
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
 
-class QuoteUpdate(UpdateView, LoginRequiredMixin):
+class QuoteUpdate(LoginRequiredMixin, UpdateView):
     model = Quote
     fields = ["content", "note"]
+    login_url = '/accounts/login/'
+    redirect_field_name = 'redirect_to'
 
 
-class QuoteDelete(DeleteView, LoginRequiredMixin):
+class QuoteDelete(LoginRequiredMixin, DeleteView):
     model = Quote
     success_url = "/quotes/"
+    login_url = '/accounts/login/'
+    redirect_field_name = 'redirect_to'
 
 
 @login_required

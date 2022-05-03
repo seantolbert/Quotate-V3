@@ -19,7 +19,7 @@
 
 ## Overview
 Quotate is a mobile friendly app that allows users to create their own sharable quotes.<br>
-What people find profound can be beautifully unique, share one of the most overlooked peronal qualities there are:<br>
+What people find profound can be beautifully unique, share one of the most overlooked personal qualities there are:<br>
 Your taste in idiomatic expressions!
 
 Try it for yourself!
